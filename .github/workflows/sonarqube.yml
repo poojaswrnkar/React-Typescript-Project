@@ -111,3 +111,19 @@ jobs:
             -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+            
+quality_gate:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Quality Gate Status
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          status=$(curl -s -u $SONAR_TOKEN: "http://your_sonarqube_server_url/api/qualitygates/project_status?projectKey=your_project_key" | jq -r '.projectStatus.status')
+          if [ "$status" != "OK" ]; then
+            echo "Quality gate failed"
+            exit 1
+          fi
+          echo "Quality gate passed"        

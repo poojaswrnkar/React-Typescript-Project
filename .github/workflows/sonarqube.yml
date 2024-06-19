@@ -131,7 +131,71 @@
 
 
 
-name: CI/CD Pipeline with SonarQube
+# name: CI/CD Pipeline with SonarQube
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: windows-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '14'
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Run tests
+#         run: npm test
+
+#       - name: Build project
+#         run: npm run build
+
+#       - name: SonarQube Scan
+#         env:
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#         run: |
+#           npm install -g sonar-scanner
+#           sonar-scanner \
+#             -Dsonar.projectKey=poojaswrnkar_React-Typescript-Project \
+#             -Dsonar.projectName='poojaswrnkar' \
+#             -Dsonar.sources=. \
+#             # -Dsonar.host.url=http://localhost:9000 \
+#             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+#             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+
+#   quality_gate:
+#     needs: build
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Quality Gate Status
+#         env:
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+#         run: |
+#           status=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/project/overview?id=poojaswrnkar_React-Typescript-Project" | jq -r '.projectStatus.status')
+#           if [ "$status" != "OK" ]; then
+#             echo "Quality gate failed"
+#             exit 1
+#           fi
+#           echo "Quality gate passed"
+
+
+
+name: SonarCloud Scan
 
 on:
   push:
@@ -142,8 +206,8 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: windows-latest
+  sonarcloud:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -157,41 +221,32 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test
-
       - name: Build project
         run: npm run build
 
-      - name: SonarQube Scan
+      - name: Run tests
+        run: npm test
+
+      - name: SonarCloud Scan
         env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          npm install -g sonar-scanner
+          npm install -g sonarcloud
           sonar-scanner \
             -Dsonar.projectKey=poojaswrnkar_React-Typescript-Project \
-            -Dsonar.projectName='poojaswrnkar' \
-            -Dsonar.sources=. \
-            # -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=src \
+            -Dsonar.exclusions=dist/**,node_modules/** \
+            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-  quality_gate:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Quality Gate Status
+      - name: SonarCloud Quality Gate
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: |
-          status=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/project/overview?id=poojaswrnkar_React-Typescript-Project" | jq -r '.projectStatus.status')
-          if [ "$status" != "OK" ]; then
-            echo "Quality gate failed"
-            exit 1
-          fi
-          echo "Quality gate passed"
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
 
 

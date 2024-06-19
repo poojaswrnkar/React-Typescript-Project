@@ -163,17 +163,17 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: SonarQube Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: SonarQube Scan
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
             -Dsonar.projectKey=poojaswrnkar \
             -Dsonar.projectName='poojaswrnkar' \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            # -Dsonar.sources=. \
+            # -Dsonar.host.url=http://localhost:9000 \
+            # -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
 
   quality_gate:

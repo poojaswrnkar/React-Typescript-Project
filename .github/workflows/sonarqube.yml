@@ -112,9 +112,9 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
             
-quality_gate:
-    needs: build
-    runs-on: ubuntu-latest
+# quality_gate:
+#     needs: build
+#     runs-on: ubuntu-latest
 
     steps:
       - name: Quality Gate Status

@@ -169,11 +169,11 @@ jobs:
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
-            -Dsonar.projectKey=poojaswrnkar \
+            -Dsonar.projectKey=poojaswrnkar_React-Typescript-Project \
             -Dsonar.projectName='poojaswrnkar' \
-            # -Dsonar.sources=. \
+            -Dsonar.sources=. \
             # -Dsonar.host.url=http://localhost:9000 \
-            # -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
 
   quality_gate:
@@ -186,7 +186,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          status=$(curl -s -u $SONAR_TOKEN: "http://your_sonarqube_server_url/api/qualitygates/project_status?projectKey="poojaswrnkar" | jq -r '.projectStatus.status')
+          status=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/project/overview?id=poojaswrnkar_React-Typescript-Project" | jq -r '.projectStatus.status')
           if [ "$status" != "OK" ]; then
             echo "Quality gate failed"
             exit 1

@@ -67,6 +67,70 @@
 
 
 
+# name: CI/CD Pipeline with SonarQube
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: windows-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '14'
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Run tests
+#         run: npm test
+
+#       - name: Build project
+#         run: npm run build
+
+#       - name: SonarQube Scan
+#         env:
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#         run: |
+#           npm install -g sonar-scanner
+#           sonar-scanner \
+#             -Dsonar.projectKey=poojaswrnkar \
+#             -Dsonar.projectName='poojaswrnkar' \
+#             -Dsonar.sources=. \
+#             -Dsonar.host.url=http://localhost:9000 \
+#             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+#             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+            
+# quality_gate:
+#     needs: build
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Quality Gate Status
+#         env:
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
+#         run: |
+#           status=$(curl -s -u $SONAR_TOKEN: "http://your_sonarqube_server_url/api/qualitygates/project_status?projectKey=poojaswrnkar" | jq -r '.projectStatus.status')
+#           if [ "$status" != "OK" ]; then
+#             echo "Quality gate failed"
+#             exit 1
+#           fi
+#           echo "Quality gate passed"        
+
+
+
 name: CI/CD Pipeline with SonarQube
 
 on:
@@ -111,22 +175,23 @@ jobs:
             -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
-            
-# quality_gate:
-#     needs: build
-#     runs-on: ubuntu-latest
+
+  quality_gate:
+    needs: build
+    runs-on: ubuntu-latest
 
     steps:
       - name: Quality Gate Status
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           status=$(curl -s -u $SONAR_TOKEN: "http://your_sonarqube_server_url/api/qualitygates/project_status?projectKey=poojaswrnkar" | jq -r '.projectStatus.status')
           if [ "$status" != "OK" ]; then
             echo "Quality gate failed"
             exit 1
           fi
-          echo "Quality gate passed"        
+          echo "Quality gate passed"
+
 
 

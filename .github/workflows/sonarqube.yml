@@ -97,8 +97,10 @@ jobs:
       - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          # npm install -g sonarcloud
+        run:
+         curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip -o sonar-scanner.zip
+         unzip sonar-scanner.zip
+         export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
           sonar-scanner \
             -Dsonar.projectKey=poojaswrnkar_React-Typescript-Project \
             -Dsonar.sources=src \

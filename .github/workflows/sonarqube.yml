@@ -142,6 +142,16 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    services:
+      sonarqube:
+        image: sonarqube:latest
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd="curl -s http://localhost:9000/api/system/health | grep -q UP"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
 
     steps:
       - name: Checkout code
@@ -173,6 +183,7 @@ jobs:
             -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+        shell: bash
 
   quality_gate:
     needs: build
@@ -192,4 +203,6 @@ jobs:
             exit 1
           fi
           echo "Quality gate passed"
+        shell: bash
+
 

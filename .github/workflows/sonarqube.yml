@@ -163,9 +163,9 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # - name: SonarQube Scan
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           npm install -g sonar-scanner
           sonar-scanner \

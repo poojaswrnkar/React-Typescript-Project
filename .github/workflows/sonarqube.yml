@@ -122,7 +122,7 @@
 #           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 #           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
 #         run: |
-#           status=$(curl -s -u $SONAR_TOKEN: "http://your_sonarqube_server_url/api/qualitygates/project_status?projectKey=poojaswrnkar" | jq -r '.projectStatus.status')
+#           status=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/project/overview?id=poojaswrnkar_React-Typescript-Project" | jq -r '.projectStatus.status')
 #           if [ "$status" != "OK" ]; then
 #             echo "Quality gate failed"
 #             exit 1

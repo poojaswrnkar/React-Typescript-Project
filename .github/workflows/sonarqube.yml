@@ -21,6 +21,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '16'
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'  # or any other Java version
+        distribution: 'adopt'  # Specify the Java distribution, e.g., AdoptOpenJDK
 
     - name: Cache node modules
       uses: actions/cache@v3

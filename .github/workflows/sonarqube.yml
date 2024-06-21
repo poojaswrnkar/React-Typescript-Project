@@ -47,3 +47,5 @@ jobs:
           -Dsonar.organization=Static-code-analysis \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+# 

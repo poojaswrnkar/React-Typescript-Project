@@ -1,4 +1,4 @@
-# name: SonarQube Integration
+ # name: SonarQube Integration
 
 # on:
 #   pull_request:
@@ -105,7 +105,7 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      run: |
+      run: |  
         sonar-scanner -X \
           -Dsonar.projectKey=Static-code-analysis \
           -Dsonar.organization=Static-code-analysis \

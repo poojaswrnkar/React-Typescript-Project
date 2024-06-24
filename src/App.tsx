@@ -1,6 +1,6 @@
 import './App.css'
-import Counter from './components/Counter'
-import Heading from './components/Heading'
+// import Counter from './components/Counter'
+// import Heading from './components/Heading'
 import List from './components/List'
 import Section from './components/Section'
 import { useState } from 'react'

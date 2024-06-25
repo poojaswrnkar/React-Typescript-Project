@@ -99,12 +99,12 @@ jobs:
           args: >
             -Dsonar.projectKey=poojaswrnkar_React-Typescript-Project
             -Dsonar.organization=poojaswrnkar
-            -Dsonar.sources=src
+            # -Dsonar.sources=src
             # -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.verbose=false
-            ${{ github.event_name == 'pull_request' && format('-Dsonar.pullrequest.key={0}', github.event.number) || '' }}
-            ${{ github.event_name == 'pull_request' && format('-Dsonar.pullrequest.branch={0}', github.head_ref) || '' }}
-            ${{ github.event_name == 'pull_request' && format('-Dsonar.pullrequest.base={0}', github.base_ref) || '' }}
+            -Dsonar.verbose=true
+            # ${{ github.event_name == 'pull_request' && format('-Dsonar.pullrequest.key={0}', github.event.number) || '' }}
+            # ${{ github.event_name == 'pull_request' && format('-Dsonar.pullrequest.branch={0}', github.head_ref) || '' }}
+            # ${{ github.event_name == 'pull_request' && format('-Dsonar.pullrequest.base={0}', github.base_ref) || '' }}
 
   
           projectBaseDir: .

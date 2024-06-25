@@ -107,7 +107,7 @@
 #             # ${{ github.event_name == 'pull_request' && format('-Dsonar.pullrequest.base={0}', github.base_ref) || '' }}
 
   
-          projectBaseDir: .
+          # projectBaseDir: .
 
 
 # -----------------------------------------------------------------------

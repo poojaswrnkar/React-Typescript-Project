@@ -21,6 +21,21 @@ button {
     font-weight: bold;
 }
 
+
+button {
+    font-size: 2rem;
+}
+
+.bold {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.gold {
+    text-transform: uppercase;
+    color: #ffd700;
+}
+
 .gold {
     text-transform: uppercase;
     color: #ffd700;

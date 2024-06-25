@@ -145,6 +145,11 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: |
             ${{ runner.os }}-sonar
+      - name: Install dependencies
+        run: yarn
+      - name: Test and coverage
+        run: yarn jest --coverage
+      
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@4006f663ecaf1f8093e8e4abb9227f6041f52216  # Updated to use 'master' branch
         env:

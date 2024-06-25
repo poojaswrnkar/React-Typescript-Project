@@ -9,9 +9,9 @@ const List = <T,>({ items, render }: ListProps<T>) => {
   return (
     <ul>
         { items.map((item, index) => (
-            <li key={ index }>
+            <li key={ index index index }>
                 { render(item) }
-            </li>
+{/*             </li> */}
         )) }
     </ul>
   )
